@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <link rel="stylesheet" href="imgstyles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Background for the opening gallery */
+    .gallery-container {
+      background-image: url('images/s.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+    margin-bottom: 30px;
+    color: black; /* Changed back to white */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .folder-navigation {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .folder {
+      padding: 12px 20px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .folder:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    /* Image gallery with 3x3 grid layout and proper spacing */
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px; /* Increased gap for clear separation */
+      justify-content: center;
+      padding: 30px; /* Added padding */
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.8); /* Light background for visibility */
+      border-radius: 10px;
+    }
+
+    .image-gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 10px; /* Added padding for spacing */
+      background: white; /* White background for better separation */
+    }
+
+    .image-gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-content {
+      display: block;
+      margin: 10% auto;
+      max-width: 80%;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gallery-container">
+    <h1>Image Gallery</h1>
+    
+    <div class="folder-navigation">
+      <div class="folder" onclick="loadImages('mountains')">Mountains</div>
+      <div class="folder" onclick="loadImages('forests')">Forests</div>
+      <div class="folder" onclick="loadImages('rivers')">Rivers</div>
+      <div class="folder" onclick="loadImages('beaches')">Beaches</div>
+      <div class="folder" onclick="loadImages('deserts')">Deserts</div>
+    </div>
+    
+    <div class="image-gallery" id="imageGallery"></div>
+
+    <div id="fullScreenModal" class="modal">
+      <span id="close" class="close-btn">&times;</span>
+      <img id="fullScreenImage" class="modal-content" />
+    </div>
+  </div>
+
+  <script>
+    const images = {
+      mountains: [
+        'images/mountains/mountain1.jpeg',
+        'images/mountains/mountain2.jpeg',
+        'images/mountains/mountain3.jpeg',
+        'images/mountains/mountain4.jpeg',
+        'images/mountains/mountain5.jpeg',
+        'images/mountains/mountain6.jpeg'
+      ],
+      forests: [
+        'images/forests/forest1.jpeg',
+        'images/forests/forest2.jpeg',
+        'images/forests/forest3.jpeg',
+        'images/forests/forest4.jpeg',
+        'images/forests/forest5.jpeg',
+        'images/forests/forest6.jpeg'
+      ],
+      rivers: [
+        'images/rivers/river1.jpeg',
+        'images/rivers/river2.jpeg',
+        'images/rivers/river3.jpeg',
+        'images/rivers/river4.jpeg',
+        'images/rivers/river5.jpeg',
+        'images/rivers/river6.jpeg'
+      ],
+      beaches: [
+        'images/beaches/beach1.jpeg',
+        'images/beaches/beach2.jpeg',
+        'images/beaches/beach3.jpeg',
+        'images/beaches/beach.jpeg',
+        'images/beaches/beach5.jpeg',
+        'images/beaches/beach6.jpeg'
+      ],
+      deserts: [
+        'images/deserts/desert1.jpeg',
+        'images/deserts/desert2.jpeg',
+        'images/deserts/desert3.jpeg',
+        'images/deserts/desert4.jpeg',
+        'images/deserts/desert5.jpeg',
+        'images/deserts/desert6.jpeg'
+      ]
+    };
+
+    function loadImages(folder) {
+      const gallery = document.getElementById('imageGallery');
+      gallery.innerHTML = ''; 
+
+      images[folder].forEach(img => {
+        const imgElement = document.createElement('img');
+        imgElement.src = img;
+        imgElement.alt = folder;
+        imgElement.onclick = () => openModal(imgElement.src);
+        gallery.appendChild(imgElement);
+      });
+    }
+
+    function openModal(src) {
+      document.getElementById('fullScreenImage').src = src;
+      document.getElementById('fullScreenModal').style.display = 'block';
+    }
+
+    document.getElementById('close').onclick = function() {
+      document.getElementById('fullScreenModal').style.display = 'none';
+    };
+  </script>
+
+</body>
+</html>
